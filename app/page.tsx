@@ -6,9 +6,11 @@ import {
     CardBody,
     CardFooter,
     CardHeader,
+    Chip,
     ThemeProvider,
     Typography
 } from "@material-tailwind/react";
+import {CurrencyDollarIcon} from "@heroicons/react/20/solid";
 import {useState} from "react";
 import appleImg from "../public/apple.png"
 import droneImg from "../public/drone.png"
@@ -17,10 +19,20 @@ import suspiciousImg from "../public/suspicious.png"
 import tornadoImg from "../public/tornado.png"
 
 import Image from "next/image";
+import {useMediaQuery} from "react-responsive";
+import useWindowSize from 'react-use/lib/useWindowSize';
+import Confetti from "react-confetti";
 
 
 // @ts-ignore
-function ChoicePage({pageData, setPage, coins, setCoins}) {
+function ChoicePage({pageData, setPage, coins, setCoins, setIsExploding}) {
+    const verySmall = useMediaQuery({ query: "(max-width: 350px)" });
+
+    const handleExploding = () => {
+        setIsExploding(true);
+        setTimeout(() => setIsExploding(false), 2000);
+    }
+
     return (
         <>
             <Card className={"max-w-5xl" }>
@@ -29,32 +41,34 @@ function ChoicePage({pageData, setPage, coins, setCoins}) {
                     color={pageData.color || "gray"}
                     className="mb-4 grid h-28 place-items-center"
                 >
-                    <Typography variant="h1" className="text-center p-2 text-3xl sm:text-4xl lg:text-5xl">Choose Your Own Agri-Venture</Typography>
+                    <Typography variant="h1" className={"text-center p-2 sm:text-4xl lg:text-5xl " + (verySmall ? "text-2xl" : "text-3xl")}>Choose Your Own Agri-Venture</Typography>
                 </CardHeader>
                 <CardBody>
                     <div className="flex gap-5">
                         <div className="flex flex-col gap-5">
                             <div>
-                                <Typography variant="h3">{pageData.title} (Coins: {coins})</Typography>
+                                <Typography variant="h3" className="text-2xl sm:text-3xl flex items-center gap-2">
+                                    {pageData.title}
+                                    <Chip color={coins >= 5 ? "green" : coins == 4 ? "light-green" : coins == 3 ? "yellow" : coins == 2 ? "amber" : coins == 1 ? "orange" : "red"} value={coins} icon={<CurrencyDollarIcon />} />
+                                </Typography>
+                                {/*<Chip className="max-w-fit inline-block" value={coins} icon={<CurrencyDollarIcon />} />*/}
                                 <Typography>{pageData.description}</Typography>
                                 {pageData.prompt && <Typography variant="h6" className="pt-2">{pageData.prompt}</Typography>}
                             </div>
-                            <div className="relative">
-                                <Image src={appleImg}      alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 sm:hidden " + (pageData.image == "apple"      ? "" : "hidden")} placeholder="blur" />
-                                <Image src={droneImg}      alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 sm:hidden " + (pageData.image == "drone"      ? "" : "hidden")} placeholder="blur" />
-                                <Image src={strangeImg}    alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 sm:hidden " + (pageData.image == "strange"    ? "" : "hidden")} placeholder="blur" />
-                                <Image src={suspiciousImg} alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 sm:hidden " + (pageData.image == "suspicious" ? "" : "hidden")} placeholder="blur" />
-                                <Image src={tornadoImg}    alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 sm:hidden " + (pageData.image == "tornado"    ? "" : "hidden")} placeholder="blur" />
+                            <div className="relative sm:hidden">
+                                <Image src={appleImg}      alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 " + (pageData.image == "apple"      ? "" : "hidden")} placeholder="blur" />
+                                <Image src={droneImg}      alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 " + (pageData.image == "drone"      ? "" : "hidden")} placeholder="blur" />
+                                <Image src={strangeImg}    alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 " + (pageData.image == "strange"    ? "" : "hidden")} placeholder="blur" />
+                                <Image src={suspiciousImg} alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 " + (pageData.image == "suspicious" ? "" : "hidden")} placeholder="blur" />
+                                <Image src={tornadoImg}    alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 " + (pageData.image == "tornado"    ? "" : "hidden")} placeholder="blur" />
                             </div>
                         </div>
-                        <div className="flex flex-col gap-3">
-                            <div className="relative">
-                                <Image src={appleImg}      alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 hidden " + (pageData.image == "apple"      ? "sm:inline-block" : "")} placeholder="blur" />
-                                <Image src={droneImg}      alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 hidden " + (pageData.image == "drone"      ? "sm:inline-block" : "")} placeholder="blur" />
-                                <Image src={strangeImg}    alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 hidden " + (pageData.image == "strange"    ? "sm:inline-block" : "")} placeholder="blur" />
-                                <Image src={suspiciousImg} alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 hidden " + (pageData.image == "suspicious" ? "sm:inline-block" : "")} placeholder="blur" />
-                                <Image src={tornadoImg}    alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 hidden " + (pageData.image == "tornado"    ? "sm:inline-block" : "")} placeholder="blur" />
-                            </div>
+                        <div className="relative hidden sm:inline-block">
+                            <Image src={appleImg}      alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 " + (pageData.image == "apple"      ? "" : "hidden")} placeholder="blur" />
+                            <Image src={droneImg}      alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 " + (pageData.image == "drone"      ? "" : "hidden")} placeholder="blur" />
+                            <Image src={strangeImg}    alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 " + (pageData.image == "strange"    ? "" : "hidden")} placeholder="blur" />
+                            <Image src={suspiciousImg} alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 " + (pageData.image == "suspicious" ? "" : "hidden")} placeholder="blur" />
+                            <Image src={tornadoImg}    alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 " + (pageData.image == "tornado"    ? "" : "hidden")} placeholder="blur" />
                         </div>
                     </div>
                 </CardBody>
@@ -69,10 +83,17 @@ function ChoicePage({pageData, setPage, coins, setCoins}) {
                             (choice) =>
                             <Button key={choice.id} className="flex-grow" onClick={() => {
                                 setPage(choice.id);
-                                if (choice.id != 17)
-                                    setCoins(coins-choice.cost);
-                                if (choice.id == 0)
-                                    setCoins(5);
+                                switch (choice.id) {
+                                    case 0:
+                                        setCoins(5);
+                                        break;
+                                    case 17:
+                                        break;
+                                    case 10:
+                                        handleExploding();
+                                    default:
+                                        setCoins(coins-choice.cost);
+                                }
                             }} disabled={choice.cost > coins}>
                                 {choice.title} {(choice.cost || 0) != 0 && ("(Cost: " + choice.cost + ")")}
                             </Button>
@@ -386,14 +407,22 @@ export default function Home() {
     // }
     const [currentPage, setCurrentPage] = useState(0);
     const [coins, setCoins] = useState(5);
+    const { width, height } = useWindowSize();
+    const [isExploding, setIsExploding] = useState(false);
+
 
     return (
         <ThemeProvider>
+            <Confetti
+                width={width}
+                height={height}
+                numberOfPieces={isExploding ? 200 : 0}
+            />
             <main className="flex min-h-screen flex-col items-center justify-between py-24 px-6 md:px-12 lg:px-24 bg-gray-200">
                 <ChoicePage pageData={
                     //@ts-ignore
                     pages[currentPage]
-                } setPage={setCurrentPage} coins={coins} setCoins={setCoins}/>
+                } setPage={setCurrentPage} coins={coins} setCoins={setCoins} setIsExploding={setIsExploding} />
             </main>
         </ThemeProvider>
     )
