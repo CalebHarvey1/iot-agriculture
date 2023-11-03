@@ -276,14 +276,14 @@ const pages = {
     },
     13: {
         title: "Year 4",
-        description: "You buy new drones and start again from scratch. The next day, a man walks up to your door and asks if he can help in any way. You tell him that you need something to replace the torn up farmland, he offers a automatic field plower.",
+        description: "You buy new drones and start again from scratch. The next day, a man walks up to your door and asks if he can help in any way. You tell him that you need something to replace the torn up farmland, he offers an automatic field plower.",
         prompt: "Do you take it?",
         image: "suspicious",
         choices: [
             {
                 id: 9,
                 title: "Yes",
-                cost: 0,
+                cost: 3,
             },
             {
                 id: 10,
@@ -342,7 +342,7 @@ const pages = {
             {
                 id: 9,
                 title: "Yes",
-                cost: 0,
+                cost: 3,
             },
             {
                 id: 10,
