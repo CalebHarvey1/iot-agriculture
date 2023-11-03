@@ -9,7 +9,7 @@ import {
     ThemeProvider,
     Typography
 } from "@material-tailwind/react";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import appleImg from "../public/apple.png"
 import droneImg from "../public/drone.png"
 import strangeImg from "../public/strange.png"
@@ -23,15 +23,13 @@ import Image from "next/image";
 function ChoicePage({pageData, setPage, coins, setCoins}) {
     return (
         <>
-            {/*w-full max-w-6xl*/}
             <Card className={"max-w-5xl" }>
                 <CardHeader
                     variant="gradient"
                     color={pageData.color || "gray"}
                     className="mb-4 grid h-28 place-items-center"
                 >
-                    {/*<Typography variant="h1">IoT in Agriculture</Typography>*/}
-                    <Typography variant="h1">Choose Your Own Agri-Venture!</Typography>
+                    <Typography variant="h1" className="text-center p-2 text-3xl sm:text-4xl lg:text-5xl">Choose Your Own Agri-Venture</Typography>
                 </CardHeader>
                 <CardBody>
                     <div className="flex gap-5">
@@ -41,47 +39,25 @@ function ChoicePage({pageData, setPage, coins, setCoins}) {
                                 <Typography>{pageData.description}</Typography>
                                 {pageData.prompt && <Typography variant="h6" className="pt-2">{pageData.prompt}</Typography>}
                             </div>
-                            {/*<Image src={pageData.image} alt="card-image" />*/}
-                            {/*<div className="relative">*/}
-                            {/*    <img*/}
-                            {/*        className="rounded-lg object-cover object-center shadow-xl shadow-blue-gray-900/50"*/}
-                            {/*        src={pageData.image}*/}
-                            {/*        alt="card-image"*/}
-                            {/*    />*/}
-                            {/*</div>*/}
+                            <div className="relative">
+                                <Image src={appleImg}      alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 sm:hidden " + (pageData.image == "apple"      ? "" : "hidden")} placeholder="blur" />
+                                <Image src={droneImg}      alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 sm:hidden " + (pageData.image == "drone"      ? "" : "hidden")} placeholder="blur" />
+                                <Image src={strangeImg}    alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 sm:hidden " + (pageData.image == "strange"    ? "" : "hidden")} placeholder="blur" />
+                                <Image src={suspiciousImg} alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 sm:hidden " + (pageData.image == "suspicious" ? "" : "hidden")} placeholder="blur" />
+                                <Image src={tornadoImg}    alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 sm:hidden " + (pageData.image == "tornado"    ? "" : "hidden")} placeholder="blur" />
+                            </div>
                         </div>
                         <div className="flex flex-col gap-3">
                             <div className="relative">
-                                {/*{pageData.image && <img*/}
-                                {/*    className="rounded-lg object-cover object-center shadow-xl shadow-blue-gray-900/50"*/}
-                                {/*    src={pageData.image}*/}
-                                {/*    alt="card-image"*/}
-                                {/*/>}*/}
-                                <Image src={appleImg} alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 " + (pageData.image == "apple" ? "" : "hidden")} placeholder="blur" />
-                                <Image src={droneImg} alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 " + (pageData.image == "drone" ? "" : "hidden")} placeholder="blur" />
-                                <Image src={strangeImg} alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 " + (pageData.image == "strange" ? "" : "hidden")} placeholder="blur" />
-                                <Image src={suspiciousImg} alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 " + (pageData.image == "suspicious" ? "" : "hidden")} placeholder="blur" />
-                                <Image src={tornadoImg} alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 " + (pageData.image == "tornado" ? "" : "hidden")} placeholder="blur" />
-
-                                {/*<Image src={droneImg} alt="card-image" className="rounded-lg shadow-xl shadow-blue-gray-900/50 " placeholder="blur" />*/}
-                                {/*<Image src={appleImg} alt="card-image" className="rounded-lg shadow-xl shadow-blue-gray-900/50 " placeholder="blur" />*/}
-                                {/*<Image src={strangeImg} alt="card-image" className="rounded-lg shadow-xl shadow-blue-gray-900/50 " placeholder="blur" />*/}
-
-                                {/*<Image src={suspiciousImg} alt="card-image" className="rounded-lg shadow-xl shadow-blue-gray-900/50 " placeholder="blur" />*/}
-
-                                {/*<Image src={tornadoImg} alt="card-image" className="rounded-lg shadow-xl shadow-blue-gray-900/50 " placeholder="blur" />*/}
+                                <Image src={appleImg}      alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 hidden " + (pageData.image == "apple"      ? "sm:inline-block" : "")} placeholder="blur" />
+                                <Image src={droneImg}      alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 hidden " + (pageData.image == "drone"      ? "sm:inline-block" : "")} placeholder="blur" />
+                                <Image src={strangeImg}    alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 hidden " + (pageData.image == "strange"    ? "sm:inline-block" : "")} placeholder="blur" />
+                                <Image src={suspiciousImg} alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 hidden " + (pageData.image == "suspicious" ? "sm:inline-block" : "")} placeholder="blur" />
+                                <Image src={tornadoImg}    alt="card-image" className={"rounded-lg shadow-xl shadow-blue-gray-900/50 hidden " + (pageData.image == "tornado"    ? "sm:inline-block" : "")} placeholder="blur" />
                             </div>
-                            {/*<Image src={pageData.image} alt="card-image" />*/}
-                            {/*{pageData.choices.map((choice) =>*/}
-                            {/*    <Button className="normal-case" fullWidth onClick={() => setPage(choice.id)}>*/}
-                            {/*        <Typography variant="h5">{choice.title} (Cost: {choice.cost})</Typography>*/}
-                            {/*        <Typography>{choice.description}</Typography>*/}
-                            {/*    </Button>*/}
-                            {/*)}*/}
                         </div>
                     </div>
                 </CardBody>
-                {/*className="flex justify-between gap-1"*/}
                 <CardFooter>
                     <ButtonGroup>
                         {(pageData.choices || [{
@@ -413,7 +389,7 @@ export default function Home() {
 
     return (
         <ThemeProvider>
-            <main className="flex min-h-screen flex-col items-center justify-between pt-24 px-24 bg-gray-200">
+            <main className="flex min-h-screen flex-col items-center justify-between py-24 px-6 md:px-12 lg:px-24 bg-gray-200">
                 <ChoicePage pageData={
                     //@ts-ignore
                     pages[currentPage]
