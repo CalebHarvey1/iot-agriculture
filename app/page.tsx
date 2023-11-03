@@ -22,7 +22,43 @@ import Image from "next/image";
 import {useMediaQuery} from "react-responsive";
 import useWindowSize from 'react-use/lib/useWindowSize';
 import Confetti from "react-confetti";
+import {colors} from "@material-tailwind/react/types/generic";
 
+function CoinChip({coins, mode=0}: {coins: number, mode?: number}) {
+    const colorCoins = mode == 1 ? -coins + 5 : coins;
+    let chipColor = "gray";
+    switch (colorCoins) {
+        case 4:
+            chipColor = "light-green";
+            break;
+        case 3:
+            chipColor = "yellow";
+            break;
+        case 2:
+            chipColor = "amber";
+            break;
+        case 1:
+            chipColor = "orange";
+            break;
+        default:
+            if (colorCoins >= 5)
+                chipColor = "green";
+            else
+                chipColor = "red";
+            break;
+    }
+
+    const coinStr = mode != 1 ? coins : coins < 0 ? "+" + Math.abs(coins) : coins;
+    return (
+        <>
+        <Chip
+            color={chipColor as colors}
+            value={coinStr}
+            icon={<CurrencyDollarIcon />}
+        />
+</>
+    )
+}
 
 // @ts-ignore
 function ChoicePage({pageData, setPage, coins, setCoins, setIsExploding}) {
@@ -49,7 +85,7 @@ function ChoicePage({pageData, setPage, coins, setCoins, setIsExploding}) {
                             <div>
                                 <Typography variant="h3" className="text-2xl sm:text-3xl flex items-center gap-2">
                                     {pageData.title}
-                                    <Chip color={coins >= 5 ? "green" : coins == 4 ? "light-green" : coins == 3 ? "yellow" : coins == 2 ? "amber" : coins == 1 ? "orange" : "red"} value={coins} icon={<CurrencyDollarIcon />} />
+                                    <CoinChip coins={coins} />
                                 </Typography>
                                 {/*<Chip className="max-w-fit inline-block" value={coins} icon={<CurrencyDollarIcon />} />*/}
                                 <Typography>{pageData.description}</Typography>
@@ -81,7 +117,7 @@ function ChoicePage({pageData, setPage, coins, setCoins, setIsExploding}) {
                         }]).map(
                             //@ts-ignore
                             (choice) =>
-                            <Button key={choice.id} className="flex-grow" onClick={() => {
+                            <Button key={choice.id} className="flex-grow flex items-center gap-2" onClick={() => {
                                 setPage(choice.id);
                                 switch (choice.id) {
                                     case 0:
@@ -95,7 +131,8 @@ function ChoicePage({pageData, setPage, coins, setCoins, setIsExploding}) {
                                         setCoins(coins-choice.cost);
                                 }
                             }} disabled={choice.cost > coins}>
-                                {choice.title} {(choice.cost || 0) != 0 && ("(Cost: " + choice.cost + ")")}
+                                {choice.title} {(choice.cost || 0) != 0 && <CoinChip coins={choice.cost} mode={1} />}
+
                             </Button>
                         )}
                     </ButtonGroup>
@@ -407,23 +444,25 @@ export default function Home() {
     // }
     const [currentPage, setCurrentPage] = useState(0);
     const [coins, setCoins] = useState(5);
-    const { width, height } = useWindowSize();
+    // const { width, height } = useWindowSize();
     const [isExploding, setIsExploding] = useState(false);
 
 
     return (
-        <ThemeProvider>
-            <Confetti
-                width={width}
-                height={height}
-                numberOfPieces={isExploding ? 200 : 0}
-            />
-            <main className="flex min-h-screen flex-col items-center justify-between py-24 px-6 md:px-12 lg:px-24 bg-gray-200">
-                <ChoicePage pageData={
-                    //@ts-ignore
-                    pages[currentPage]
-                } setPage={setCurrentPage} coins={coins} setCoins={setCoins} setIsExploding={setIsExploding} />
-            </main>
-        </ThemeProvider>
+        <>
+            {/*<Confetti*/}
+            {/*    width={width}*/}
+            {/*    height={height}*/}
+            {/*    numberOfPieces={isExploding ? 200 : 0}*/}
+            {/*/>*/}
+            <ThemeProvider>
+                <main className="flex min-h-screen flex-col items-center justify-between py-24 px-6 md:px-12 lg:px-24 bg-gray-200">
+                    <ChoicePage pageData={
+                        //@ts-ignore
+                        pages[currentPage]
+                    } setPage={setCurrentPage} coins={coins} setCoins={setCoins} setIsExploding={setIsExploding} />
+                </main>
+            </ThemeProvider>
+        </>
     )
 }
